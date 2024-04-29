@@ -288,7 +288,6 @@
 
 @media (max-width: 1200px) {
   .left {
-    background-color: red;
     position: absolute;
     left: -120%;
     transition: all 0.3s;
