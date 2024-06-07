@@ -23,7 +23,7 @@ function convertSecondsToMinutesSeconds(seconds) {
 
 async function getSongs(folder) {
   currFolder = folder;
-  let a = await fetch(`${currFolder}/`);
+  let a = await fetch(`http://127.0.0.1:5500/${currFolder}/`);
   let response = await a.text();
   let div = document.createElement("div");
   div.innerHTML = response;
@@ -69,7 +69,7 @@ async function getSongs(folder) {
 }
 const playMusic = (track, pause = false) => {
   // let audio = new Audio("/songs/"+track)
-  currentSong.src = `${currFolder}/` + track;
+  currentSong.src = `/${currFolder}/` + track;
   if (!pause) {
     currentSong.play();
     play.src = "img/pause.svg";
@@ -79,7 +79,7 @@ const playMusic = (track, pause = false) => {
 };
 
 async function displayAlbums() {
-  let a = await fetch("songs/");
+  let a = await fetch("http://127.0.0.1:5500/songs/");
   let response = await a.text();
   let div = document.createElement("div");
   div.innerHTML = response;
@@ -90,11 +90,11 @@ async function displayAlbums() {
   // Array.from(anchors).forEach(async (e) => {
   for (let index = 0; index < array.length; index++) {
     const e = array[index];
-    if (e.href.includes("songs")) {
+    if (e.href.includes("/songs") && e.href != `http://127.0.0.1:5500/songs`) {
       // console.log(e.href.split("/").slice(-2)[1])
-      let folder = e.href.split("/").slice(-2)[0];
+      let folder = e.href.split("/").slice(-2)[1];
       // get the metadata of the folder
-      let a = await fetch(`songs/${folder}/info.json`);
+      let a = await fetch(`http://127.0.0.1:5500/songs/${folder}/info.json`);
       let response = await a.json();
       console.log(response);
       cardContainer.innerHTML =
@@ -110,7 +110,7 @@ async function displayAlbums() {
                 </svg>
 
             </div>
-            <img src="songs/${folder}/cover.jpg" alt="">
+            <img src="http://127.0.0.1:5500/songs/${folder}/cover.jpg" alt="">
             <h2>${response.title}</h2>
             <p>${response.description}</p>
         </div>`;
